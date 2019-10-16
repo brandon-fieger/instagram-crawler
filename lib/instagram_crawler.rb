@@ -10,6 +10,7 @@ require "instagram_crawler/version"
 
 require "instagram_crawler/main"
 require "instagram_crawler/file"
+require "instagram_crawler/saver"
 require "instagram_crawler/logger"
 require "instagram_crawler/multi_io"
 require "instagram_crawler/config"

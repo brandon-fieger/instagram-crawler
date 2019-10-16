@@ -11,6 +11,7 @@ module InstagramCrawler
             post["node"]["display_url"]
           output(time, url)
           File.download(url, "post/#{time}", "#{index}.#{time}")
+          Saver.add(:post, url, time, post["node"])
         end
       end
 

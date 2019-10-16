@@ -5,10 +5,22 @@ module InstagramCrawler
       Logger.info "Running instagram-crawler v#{InstagramCrawler::VERSION}\n"
       start_time = Time.now
       File.mkdir
+      Saver.init
       page_info, user_id = Parser::Html.new(Config.base_url).parsing
       Parser::Json.new(page_info, user_id).parsing if page_info["has_next_page"]
       end_time = Time.now
       Logger.info "\nSuccess, all files have been downloaded!".light_green
+
+      if Config.save
+        require 'json'
+        items = Saver.items
+
+        File.open("items.json","w") do |f|
+          f.write(items.to_json)
+        end
+
+        return items
+      end
     end
 
     private

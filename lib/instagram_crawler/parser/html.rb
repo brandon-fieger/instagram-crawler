@@ -55,6 +55,7 @@ module InstagramCrawler
             url = Html.new(page_url).parsing_video_page
             output(time, url)
             File.download(url, 'video', time)
+            Saver.add(:video, url, time, node)
           else
             shortcode_media = Html.new(page_url).parsing_photo_page
             if shortcode_media.is_a? Array
@@ -65,6 +66,7 @@ module InstagramCrawler
               url = shortcode_media
               output(time, url)
               File.download(url, 'photo', time)
+              Saver.add(:photo, url, time, node)
             end
           end
         end

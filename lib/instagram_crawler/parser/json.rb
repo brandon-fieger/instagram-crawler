@@ -35,6 +35,7 @@ module InstagramCrawler
             url = node["video_url"]
             output(time, url)
             File.download(url, 'video', time)
+            Saver.add(:video, url, time, node)
           elsif !node["edge_sidecar_to_children"].nil?
             Logger.info "========POST========".light_magenta
             parse_post(node["edge_sidecar_to_children"]["edges"], time)
@@ -43,12 +44,13 @@ module InstagramCrawler
             url = node["display_url"]
             output(time, node["display_url"])
             File.download(url, 'photo', time)
+            Saver.add(:photo, url, time, node)
           end
         end
       end
 
       def get_json(url)
-        http = HTTP.cookies(sessionid: ENV["sessionid"])
+        http = HTTP.cookies(sessionid: Config.sessionid)
         res = Config.proxyname ?
           http.via(Config.proxyname, Config.port).get(url) : http.get(url)
         raise Errors::HttpError, "#{res.code} #{res.reason}" if res.code != 200
