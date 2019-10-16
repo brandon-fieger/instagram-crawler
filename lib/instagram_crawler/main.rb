@@ -11,16 +11,7 @@ module InstagramCrawler
       end_time = Time.now
       Logger.info "\nSuccess, all files have been downloaded!".light_green
 
-      if Config.save
-        require 'json'
-        items = Saver.items
-
-        File.open("items.json","w") do |f|
-          f.write(items.to_json)
-        end
-
-        return items
-      end
+      return Saver.items if Config.save
     end
 
     private
